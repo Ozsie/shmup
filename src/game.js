@@ -1,8 +1,8 @@
 import { Player, keys } from './Player.js';
 import { Bullet } from './Bullet.js';
 import { Enemy } from './Enemy.js';
-import { EnemyBullet } from './EnemyBullet.js';
 import { Star } from './Star.js';
+import { Asteroid } from './Asteroid.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -37,8 +37,16 @@ for (let i = 0; i < 100; i++) {
   starsLayer2.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 1, 'blue'));
 }
 
+// Spawn asteroids at intervals
+setInterval(() => {
+  const x = canvas.width;
+  const y = Math.random() * canvas.height;
+  asteroids.push(new Asteroid(x, y));
+}, 2000);
+
 const enemies = [];
 const bullets = [];
+const asteroids = [];
 
 function update(deltaTime) {
   starsLayer1.forEach(star => star.update(canvas));
@@ -48,6 +56,15 @@ function update(deltaTime) {
     bullet.update();
     if (bullet.x > canvas.width) {
       bullets.splice(bulletIndex, 1);
+    }
+  });
+
+  asteroids.forEach((asteroid, index) => {
+    asteroid.update();
+    asteroid.applyGravity(player);
+    if (asteroid.checkCollision(player)) {
+      player.takeDamage(30);
+      asteroids.splice(index, 1); // Remove asteroid on collision
     }
   });
 
@@ -90,6 +107,7 @@ function draw() {
     enemy.draw(ctx)
     enemy.bullets.forEach(bullet => bullet.draw(ctx));
   });
+  asteroids.forEach(asteroid => asteroid.draw(ctx));
 
   // Draw health counter
   ctx.fillStyle = 'white';

@@ -2,15 +2,25 @@ import { EnemyBullet } from './EnemyBullet.js'
 
 export class Enemy {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.width = 32;
-    this.height = 32;
-    this.speed = 2;
-    this.bullets = [];
+    if (typeof x === 'object') {
+      this.x = x.x;
+      this.y = x.y;
+      this.width = x.width;
+      this.height = x.height;
+      this.speed = x.speed;
+      this.points = x.points;
+      this.hits = x.hits;
+    } else {
+      this.x = x;
+      this.y = y;
+      this.width = 32;
+      this.height = 32;
+      this.speed = 2;
+      this.points = 50;
+      this.hits = 1;
+    }
     this.canFire = true;
-    this.points = 50;
-    this.hits = 1;
+    this.bullets = [];
   }
 
   update(canvas) {

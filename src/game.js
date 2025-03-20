@@ -1,7 +1,5 @@
 import { Player, keys } from './Player.js';
 import { Bullet } from './Bullet.js';
-import { Enemy } from './Enemy.js';
-import { Asteroid } from './Asteroid.js';
 import { Level } from './Level.js';
 
 const canvas = document.getElementById('gameCanvas');
@@ -12,17 +10,11 @@ let lastTime = 0;
 const player = new Player(100, canvas.height / 2);
 const level = new Level();
 
-// Initialize level with a width of 1000 cells
-level.initialize(1000, canvas);
-
-// Set some objects in the level grid
-for (let i = 0; i < 20; i++) {
-  level.setAsteroidCell(10, i, new Asteroid(10 * 32, i * 32));
-  level.setEnemyCell(20, i, new Enemy(20 * 32, i * 32));
-  level.setEnemyCell(30, i, new Enemy(30 * 32, i * 32));
-  level.setEnemyCell(50, i, new Enemy(50 * 32, i * 32));
-}
-
+fetch('levels/level1.json')
+  .then(response => response.json())
+  .then(data => {
+    level.loadFromJSON(data, canvas);
+  });
 
 window.addEventListener('keydown', (e) => {
   keys[e.key] = true;
@@ -37,15 +29,7 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// Spawn asteroids at intervals
-setInterval(() => {
-  const x = canvas.width;
-  const y = Math.random() * canvas.height;
-  asteroids.push(new Asteroid(x, y));
-}, 2000);
-
 const bullets = [];
-const asteroids = [];
 
 function update(deltaTime) {
   player.update(canvas);
@@ -67,15 +51,7 @@ function update(deltaTime) {
     }
   });
 
-  asteroids.forEach((asteroid, index) => {
-    asteroid.update();
-    asteroid.applyGravity(player);
-    if (asteroid.checkCollision(player)) {
-      player.takeDamage(30);
-      asteroids.splice(index, 1); // Remove asteroid on collision
-    }
-  });
-  level.update(canvas);
+  level.update(canvas, player);
 }
 
 function draw() {
@@ -83,7 +59,6 @@ function draw() {
   level.draw(ctx);
   player.draw(ctx);
   bullets.forEach(bullet => bullet.draw(ctx));
-  //asteroids.forEach(asteroid => asteroid.draw(ctx));
 
   // Draw health counter
   ctx.fillStyle = 'white';

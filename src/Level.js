@@ -1,5 +1,7 @@
 // Level.js
 import {Star} from './Star.js';
+import {Asteroid} from './Asteroid.js';
+import {Enemy} from './Enemy.js';
 
 export class Level {
   constructor() {
@@ -13,6 +15,24 @@ export class Level {
 
     this.starsLayer1 = [];
     this.starsLayer2 = [];
+
+    this.initialized = false;
+  }
+
+  loadFromJSON(json, canvas) {
+    this.speed = json.speed;
+    this.initialize(json.width, canvas);
+    json.objects.forEach(obj => {
+      if (obj.type === 'Asteroid') {
+        this.setAsteroidCell(obj.x, obj.y, new Asteroid(obj.x * this.cellSize, obj.y * this.cellSize));
+      } else if (obj.type === 'Enemy') {
+        let x = obj.configuration.x;
+        let y = obj.configuration.y;
+        obj.configuration.x = obj.configuration.x * this.cellSize;
+        obj.configuration.y = obj.configuration.y * this.cellSize;
+        this.setEnemyCell(x, y, new Enemy(obj.configuration));
+      }
+    });
   }
 
   // Initialize the grid with empty cells
@@ -25,6 +45,7 @@ export class Level {
       this.starsLayer1.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 0.5, 'white'));
       this.starsLayer2.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 1, 'blue'));
     }
+    this.initialized = true;
   }
 
   // Set an object at a specific cell
@@ -56,6 +77,14 @@ export class Level {
     }
   }
 
+  removeAsteroid(x, y) {
+    if (y >= 0 && y < this.gridHeight) {
+      if (this.asteroidGrid[y]) {
+        this.asteroidGrid[y][x] = null;
+      }
+    }
+  }
+
   enemies() {
     return this.enemyGrid.flatMap((enemies) => enemies)
   }
@@ -71,16 +100,17 @@ export class Level {
   }
 
   // Update the level position
-  update(canvas) {
-    if (canvas) {
-      this.starsLayer1.forEach(star => star.update(canvas));
-      this.starsLayer2.forEach(star => star.update(canvas));
-    }
+  update(canvas, player) {
+    if (!this.initialized) return;
+
+    this.starsLayer1.forEach(star => star.update(canvas));
+    this.starsLayer2.forEach(star => star.update(canvas));
 
     this.offsetX += this.speed;
     for (let y = 0; y < this.gridHeight; y++) {
-      for (let x = 0; x < this.staticGrid[y].length; x++) {
-        const staticObject = this.staticGrid[y][x];
+      let row = this.staticGrid[y];
+      for (let x = 0; x < row.length; x++) {
+        const staticObject = row[x];
         if (staticObject) {
           staticObject.update();
         }
@@ -91,6 +121,11 @@ export class Level {
         const asteroidObject = this.asteroidGrid[y][x];
         if (asteroidObject) {
           asteroidObject.update();
+          asteroidObject.applyGravity(player);
+          if (asteroidObject.checkCollision(player)) {
+            player.takeDamage(30);
+            this.removeAsteroid(x,y);
+          }
         }
       }
     }
@@ -98,6 +133,7 @@ export class Level {
 
   // Draw the level
   draw(ctx) {
+    if (!this.initialized) return;
     this.starsLayer1.forEach(star => star.draw(ctx));
     this.starsLayer2.forEach(star => star.draw(ctx));
 

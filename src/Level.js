@@ -38,13 +38,26 @@ export class Level {
   }
 
   // Set an object at a specific cell
-  setEnemyCell(x, y, object) {
+  setEnemyCell(x, y, enemy) {
     if (y >= 0 && y < this.gridHeight) {
       if (!this.enemyGrid[y]) {
         this.enemyGrid[y] = [];
       }
-      this.enemyGrid[y][x] = object;
+      this.enemyGrid[y][x] = enemy;
     }
+  }
+
+  // Remove an enemy from a specific cell
+  removeEnemy(x, y) {
+    if (y >= 0 && y < this.gridHeight) {
+      if (this.enemyGrid[y]) {
+        this.enemyGrid[y][x] = null;
+      }
+    }
+  }
+
+  enemies() {
+    return this.enemyGrid.flatMap((enemies) => enemies)
   }
 
   // Set an object at a specific cell
@@ -73,7 +86,7 @@ export class Level {
         }
         const enemyObject = this.enemyGrid[y][x];
         if (enemyObject) {
-          enemyObject.update();
+          enemyObject.update(canvas);
         }
         const asteroidObject = this.asteroidGrid[y][x];
         if (asteroidObject) {

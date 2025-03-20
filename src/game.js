@@ -37,11 +37,6 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-setInterval(() => {
-  const y = Math.random() * (canvas.height - 50);
-  enemies.push(new Enemy(canvas.width, y));
-}, 2000);
-
 // Spawn asteroids at intervals
 setInterval(() => {
   const x = canvas.width;
@@ -49,7 +44,6 @@ setInterval(() => {
   asteroids.push(new Asteroid(x, y));
 }, 2000);
 
-const enemies = [];
 const bullets = [];
 const asteroids = [];
 
@@ -57,6 +51,17 @@ function update(deltaTime) {
   player.update(canvas);
   bullets.forEach((bullet, bulletIndex) => {
     bullet.update();
+    for (let y = 0; y < level.enemyGrid.length; y++) {
+      for (let x = 0; x < level.enemyGrid[y].length; x++) {
+        const enemy = level.enemyGrid[y][x];
+        if (enemy && bullet.collidesWith(enemy)) {
+          // Remove enemy and bullet on collision
+          enemy.takeHit(level, player, x, y);
+          bullets.splice(bulletIndex, 1);
+          break;
+        }
+      }
+    }
     if (bullet.x > canvas.width) {
       bullets.splice(bulletIndex, 1);
     }
@@ -70,34 +75,6 @@ function update(deltaTime) {
       asteroids.splice(index, 1); // Remove asteroid on collision
     }
   });
-
-  enemies.forEach((enemy, enemyIndex) => {
-    enemy.update();
-    if (enemy.x + enemy.width < 0) {
-      enemies.splice(enemyIndex, 1);
-    }
-
-    bullets.forEach((bullet, bulletIndex) => {
-      if (bullet.x < enemy.x + enemy.width &&
-        bullet.x + bullet.width > enemy.x &&
-        bullet.y < enemy.y + enemy.height &&
-        bullet.y + bullet.height > enemy.y) {
-        player.addScore(100); // Customize points per enemy
-        enemies.splice(enemyIndex, 1);
-        bullets.splice(bulletIndex, 1);
-      }
-    });
-
-    enemy.bullets.forEach((bullet, bulletIndex) => {
-      if (bullet.x < player.x + player.width &&
-        bullet.x + bullet.width > player.x &&
-        bullet.y < player.y + player.height &&
-        bullet.y + bullet.height > player.y) {
-        player.takeDamage(10);
-        enemy.bullets.splice(bulletIndex, 1);
-      }
-    });
-  });
   level.update(canvas);
 }
 
@@ -106,7 +83,6 @@ function draw() {
   level.draw(ctx);
   player.draw(ctx);
   bullets.forEach(bullet => bullet.draw(ctx));
-  //enemies.forEach(enemy => enemy.draw(ctx));
   //asteroids.forEach(asteroid => asteroid.draw(ctx));
 
   // Draw health counter

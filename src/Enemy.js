@@ -8,17 +8,34 @@ export class Enemy {
     this.height = 32;
     this.speed = 2;
     this.bullets = [];
-    this.shootInterval = setInterval(() => this.shoot(), 1000); // Customize shooting interval
+    this.canFire = true;
+    this.points = 50;
+    this.hits = 1;
   }
 
-  update() {
+  update(canvas) {
     this.x -= this.speed;
+
+    // Check if the enemy is within the canvas bounds
+    if (this.x >= 0 && this.x + this.width <= canvas.width &&
+      this.y >= 0 && this.y + this.height <= canvas.height) {
+      this.fire();
+    }
     this.bullets.forEach((bullet, index) => {
       bullet.update();
       if (bullet.x + bullet.width < 0) {
         this.bullets.splice(index, 1);
       }
     });
+  }
+
+  fire() {
+    if (this.canFire) {
+      // Logic to fire a bullet
+      this.shoot();
+      this.canFire = false; // Prevent continuous firing
+      setTimeout(() => this.canFire = true, 1000); // Allow firing again after 1 second
+    }
   }
 
   draw(ctx) {
@@ -29,5 +46,13 @@ export class Enemy {
 
   shoot() {
     this.bullets.push(new EnemyBullet(this.x, this.y + this.height / 2));
+  }
+
+  takeHit(level, player, x, y) {
+    this.hits--;
+    if (this.hits <= 0) {
+      level.removeEnemy(x, y);
+      player.addScore(this.points)
+    }
   }
 }

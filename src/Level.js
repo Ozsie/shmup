@@ -167,13 +167,17 @@ export class Level {
         if (enemy) {
           enemy.draw(ctx);
         }
-        ctx.strokeStyle = 'yellow';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x * this.cellSize - this.offsetX, y * this.cellSize, this.cellSize, this.cellSize);
+        //this.drawDebugGrid(ctx, x, y);
       }
     }
 
     this.drawGrid(ctx, this.foregroundGrid, this.foreground);
+  }
+
+  drawDebugGrid(ctx, x, y) {
+    ctx.strokeStyle = 'yellow';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x * this.cellSize - this.offsetX, y * this.cellSize, this.cellSize, this.cellSize);
   }
 
   drawGrid(ctx, grid, image) {

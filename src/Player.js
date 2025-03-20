@@ -7,6 +7,7 @@ export class Player {
     this.speed = 5;
     this.health = 100;
     this.score = 0;
+    this.sprite = new Image();
   }
 
   update() {

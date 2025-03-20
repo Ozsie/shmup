@@ -5,6 +5,8 @@ export class Bullet {
     this.width = 10;
     this.height = 5;
     this.speed = 10;
+    this.sprite = new Image();
+    this.sprite.src = 'bullet.png';
   }
 
   update() {
@@ -14,6 +16,7 @@ export class Bullet {
   draw(ctx) {
     ctx.fillStyle = 'red';
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.sprite, 0, 0, this.sprite.width, this.sprite.height, this.x - (this.sprite.width / 2), this.y - (this.sprite.height / 2), this.sprite.width, this.sprite.height);
   }
 
   collidesWith(enemy) {

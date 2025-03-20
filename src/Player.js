@@ -2,8 +2,8 @@ export class Player {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 32;
+    this.height = 32;
     this.speed = 5;
     this.health = 100;
     this.score = 0;

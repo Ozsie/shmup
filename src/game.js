@@ -1,8 +1,8 @@
 import { Player, keys } from './Player.js';
 import { Bullet } from './Bullet.js';
 import { Enemy } from './Enemy.js';
-import { Star } from './Star.js';
 import { Asteroid } from './Asteroid.js';
+import { Level } from './Level.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -10,6 +10,19 @@ const ctx = canvas.getContext('2d');
 let lastTime = 0;
 
 const player = new Player(100, canvas.height / 2);
+const level = new Level();
+
+// Initialize level with a width of 1000 cells
+level.initialize(1000, canvas);
+
+// Set some objects in the level grid
+for (let i = 0; i < 20; i++) {
+  level.setAsteroidCell(10, i, new Asteroid(10 * 32, i * 32));
+  level.setEnemyCell(20, i, new Enemy(20 * 32, i * 32));
+  level.setEnemyCell(30, i, new Enemy(30 * 32, i * 32));
+  level.setEnemyCell(50, i, new Enemy(50 * 32, i * 32));
+}
+
 
 window.addEventListener('keydown', (e) => {
   keys[e.key] = true;
@@ -29,14 +42,6 @@ setInterval(() => {
   enemies.push(new Enemy(canvas.width, y));
 }, 2000);
 
-const starsLayer1 = [];
-const starsLayer2 = [];
-
-for (let i = 0; i < 100; i++) {
-  starsLayer1.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 0.5, 'white'));
-  starsLayer2.push(new Star(Math.random() * canvas.width, Math.random() * canvas.height, 1, 'blue'));
-}
-
 // Spawn asteroids at intervals
 setInterval(() => {
   const x = canvas.width;
@@ -49,9 +54,7 @@ const bullets = [];
 const asteroids = [];
 
 function update(deltaTime) {
-  starsLayer1.forEach(star => star.update(canvas));
-  starsLayer2.forEach(star => star.update(canvas));
-  player.update();
+  player.update(canvas);
   bullets.forEach((bullet, bulletIndex) => {
     bullet.update();
     if (bullet.x > canvas.width) {
@@ -95,19 +98,16 @@ function update(deltaTime) {
       }
     });
   });
+  level.update(canvas);
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  starsLayer1.forEach(star => star.draw(ctx));
-  starsLayer2.forEach(star => star.draw(ctx));
+  level.draw(ctx);
   player.draw(ctx);
   bullets.forEach(bullet => bullet.draw(ctx));
-  enemies.forEach(enemy => {
-    enemy.draw(ctx)
-    enemy.bullets.forEach(bullet => bullet.draw(ctx));
-  });
-  asteroids.forEach(asteroid => asteroid.draw(ctx));
+  //enemies.forEach(enemy => enemy.draw(ctx));
+  //asteroids.forEach(asteroid => asteroid.draw(ctx));
 
   // Draw health counter
   ctx.fillStyle = 'white';

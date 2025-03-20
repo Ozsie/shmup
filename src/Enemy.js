@@ -4,8 +4,8 @@ export class Enemy {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 32;
+    this.height = 32;
     this.speed = 2;
     this.bullets = [];
     this.shootInterval = setInterval(() => this.shoot(), 1000); // Customize shooting interval
@@ -24,6 +24,7 @@ export class Enemy {
   draw(ctx) {
     ctx.fillStyle = 'green';
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    this.bullets.forEach(bullet => bullet.draw(ctx));
   }
 
   shoot() {

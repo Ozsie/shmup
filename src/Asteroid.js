@@ -3,8 +3,8 @@ export class Asteroid {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.width = 50;
-    this.height = 50;
+    this.width = 32;
+    this.height = 32;
     this.speed = 1;
     this.rotation = 0;
     this.rotationSpeed = 0.01;

@@ -25,7 +25,7 @@ window.addEventListener('keyup', (e) => {
 
 window.addEventListener('keydown', (e) => {
   if (e.key === ' ') {
-    bullets.push(new Bullet(player.x + player.width, player.y + player.height / 2));
+    bullets.push(new Bullet(player.x + player.width / 2, player.y));
   }
 });
 

@@ -30,9 +30,10 @@ export class EnemyBullet {
   collidesWith(player) {
     const hitBoxX = this.x - this.width / 2;
     const hitBoxY = this.y - this.height / 2;
-    return hitBoxX < player.x + player.width &&
-      hitBoxX + this.width > player.x &&
-      hitBoxY < player.y + player.height &&
-      hitBoxY + this.height > player.y;
+    const playerHB = player.hitbox()
+    return hitBoxX < playerHB.x + player.width &&
+      hitBoxX + this.width > playerHB.x &&
+      hitBoxY < playerHB.y + player.height &&
+      hitBoxY + this.height > playerHB.y;
   }
 }

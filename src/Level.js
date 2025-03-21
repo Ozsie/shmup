@@ -128,7 +128,7 @@ export class Level {
         }
         const enemyObject = this.enemyGrid[y][x];
         if (enemyObject) {
-          enemyObject.update(canvas);
+          enemyObject.update(canvas, player);
         }
         const asteroidObject = this.asteroidGrid[y][x];
         if (asteroidObject) {

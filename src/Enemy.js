@@ -23,7 +23,7 @@ export class Enemy {
     this.bullets = [];
   }
 
-  update(canvas) {
+  update(canvas, player) {
     this.x -= this.speed;
 
     // Check if the enemy is within the canvas bounds
@@ -31,8 +31,19 @@ export class Enemy {
       this.y >= 0 && this.y + this.height <= canvas.height) {
       this.fire();
     }
+
     this.bullets.forEach((bullet, index) => {
       bullet.update();
+
+      if (bullet.x < player.x + player.width &&
+        bullet.x + bullet.width > player.x &&
+        bullet.y < player.y + player.height &&
+        bullet.y + bullet.height > player.y) {
+        player.takeDamage(10);
+        this.bullets.splice(index, 1);
+        return;
+      }
+
       if (bullet.x + bullet.width < 0) {
         this.bullets.splice(index, 1);
       }

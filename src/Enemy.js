@@ -35,10 +35,7 @@ export class Enemy {
     this.bullets.forEach((bullet, index) => {
       bullet.update();
 
-      if (bullet.x < player.x + player.width &&
-        bullet.x + bullet.width > player.x &&
-        bullet.y < player.y + player.height &&
-        bullet.y + bullet.height > player.y) {
+      if (bullet.collidesWith(player)) {
         player.takeDamage(10);
         this.bullets.splice(index, 1);
         return;

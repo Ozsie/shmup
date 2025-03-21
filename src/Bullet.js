@@ -1,3 +1,5 @@
+import { config } from './config.js';
+
 export class Bullet {
   constructor(x, y) {
     this.x = x;
@@ -14,8 +16,10 @@ export class Bullet {
   }
 
   draw(ctx) {
-    ctx.fillStyle = 'red';
-    ctx.fillRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height);
+    if (config.hitboxes) {
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    }
     ctx.drawImage(this.sprite, 0, 0, this.sprite.width, this.sprite.height, this.x - (this.sprite.width / 2), this.y - (this.sprite.height / 2), this.sprite.width, this.sprite.height);
   }
 

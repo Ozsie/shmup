@@ -2,6 +2,7 @@
 import {Star} from './Star.js';
 import {Asteroid} from './Asteroid.js';
 import {Enemy} from './Enemy.js';
+import {config} from './config.js';
 
 export class Level {
   constructor() {
@@ -167,7 +168,8 @@ export class Level {
         if (enemy) {
           enemy.draw(ctx);
         }
-        //this.drawDebugGrid(ctx, x, y);
+        if (config.grid) {
+          this.drawDebugGrid(ctx, x, y);}
       }
     }
 

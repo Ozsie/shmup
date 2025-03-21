@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aeaa4868-03e1-421e-a77e-dc24f26ff416" name="Changes" comment="remove files from branch">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="gh-pages" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Ozsie"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ozsie/shmup.git",
+    "accountId": "86242d24-6f6d-4aef-9f52-b210bd82f9fe"
+  }
+}]]></component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2uRQaVmD6Kqo4R1eCKfbMd631ex" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/oscar/dev/shmup/src/assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ssh.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/levels" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aeaa4868-03e1-421e-a77e-dc24f26ff416" name="Changes" comment="" />
+      <created>1742208970675</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742208970675</updated>
+      <workItem from="1742208971783" duration="2661000" />
+      <workItem from="1742213038657" duration="7523000" />
+      <workItem from="1742477507204" duration="9599000" />
+      <workItem from="1742551010887" duration="3826000" />
+    </task>
+    <task id="LOCAL-00001" summary="git ignore">
+      <option name="closed" value="true" />
+      <created>1742391770396</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1742391770396</updated>
+    </task>
+    <task id="LOCAL-00002" summary="asteroids">
+      <option name="closed" value="true" />
+      <created>1742392356868</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742392356868</updated>
+    </task>
+    <task id="LOCAL-00003" summary="level">
+      <option name="closed" value="true" />
+      <created>1742455712438</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742455712438</updated>
+    </task>
+    <task id="LOCAL-00004" summary="enemies only in level">
+      <option name="closed" value="true" />
+      <created>1742456449670</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742456449670</updated>
+    </task>
+    <task id="LOCAL-00005" summary="level definitions, configurable enemies">
+      <option name="closed" value="true" />
+      <created>1742478923408</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1742478923408</updated>
+    </task>
+    <task id="LOCAL-00006" summary="bg and fg for level">
+      <option name="closed" value="true" />
+      <created>1742482642517</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1742482642517</updated>
+    </task>
+    <task id="LOCAL-00007" summary="bullet sprite">
+      <option name="closed" value="true" />
+      <created>1742483258720</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1742483258720</updated>
+    </task>
+    <task id="LOCAL-00008" summary="better bullet hitbox">
+      <option name="closed" value="true" />
+      <created>1742548006112</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1742548006112</updated>
+    </task>
+    <task id="LOCAL-00009" summary="better enemy bullet hitbox and config">
+      <option name="closed" value="true" />
+      <created>1742548416838</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1742548416838</updated>
+    </task>
+    <task id="LOCAL-00010" summary="player can't leave canvas">
+      <option name="closed" value="true" />
+      <created>1742548518605</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1742548518605</updated>
+    </task>
+    <task id="LOCAL-00011" summary="player graphics">
+      <option name="closed" value="true" />
+      <created>1742549953873</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1742549953873</updated>
+    </task>
+    <task id="LOCAL-00012" summary="readme">
+      <option name="closed" value="true" />
+      <created>1742551114831</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1742551114831</updated>
+    </task>
+    <task id="LOCAL-00013" summary="deploy workflow">
+      <option name="closed" value="true" />
+      <created>1742560618558</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742560618558</updated>
+    </task>
+    <task id="LOCAL-00014" summary="remove files from branch">
+      <option name="closed" value="true" />
+      <created>1742560667281</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1742560667281</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="git ignore" />
+    <MESSAGE value="asteroids" />
+    <MESSAGE value="level" />
+    <MESSAGE value="enemies only in level" />
+    <MESSAGE value="level definitions, configurable enemies" />
+    <MESSAGE value="bg and fg for level" />
+    <MESSAGE value="bullet sprite" />
+    <MESSAGE value="better bullet hitbox" />
+    <MESSAGE value="better enemy bullet hitbox and config" />
+    <MESSAGE value="player can't leave canvas" />
+    <MESSAGE value="player graphics" />
+    <MESSAGE value="readme" />
+    <MESSAGE value="deploy workflow" />
+    <MESSAGE value="remove files from branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove files from branch" />
+  </component>
+</project>

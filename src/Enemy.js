@@ -7,24 +7,29 @@ export class Enemy {
       this.y = x.y;
       this.width = x.width;
       this.height = x.height;
-      this.speed = x.speed;
       this.points = x.points;
       this.hits = x.hits;
+      this.hull = x.hull;
+      this.engine = x.engine;
     } else {
       this.x = x;
       this.y = y;
       this.width = 32;
       this.height = 32;
-      this.speed = 2;
       this.points = 50;
-      this.hits = 1;
+      this.hull = {
+        hits: 1,
+      }
+      this.engine = {
+        speed: 2,
+      }
     }
     this.canFire = true;
     this.bullets = [];
   }
 
   update(canvas, player) {
-    this.x -= this.speed;
+    this.x -= this.engine.speed;
 
     // Check if the enemy is within the canvas bounds
     if (this.x >= 0 && this.x + this.width <= canvas.width &&
@@ -67,10 +72,46 @@ export class Enemy {
   }
 
   takeHit(level, player, x, y) {
-    this.hits--;
-    if (this.hits <= 0) {
+    this.hull.hits--;
+    if (this.hull.hits <= 0) {
       level.removeEnemy(x, y);
       player.addScore(this.points)
     }
+  }
+}
+
+export class Flyer extends Enemy {
+  constructor(x, y) {
+    super(x, y);
+  }
+
+  update(canvas, player) {
+    super.update(canvas, player);
+  }
+
+  draw(ctx) {
+    super.draw(ctx);
+  }
+}
+
+export class Bomber extends Enemy {
+  constructor(x, y) {
+    super(x, y);
+    this.width = 32;
+    this.height = 16;
+    this.hull = {
+      "hits": 5
+    };
+    this.engine = {
+      "speed": 0.8
+    }
+  }
+
+  update(canvas, player) {
+    super.update(canvas, player);
+  }
+
+  draw(ctx) {
+    super.draw(ctx);
   }
 }

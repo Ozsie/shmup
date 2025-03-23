@@ -32,8 +32,7 @@ export class Enemy {
     this.x -= this.engine.speed;
 
     // Check if the enemy is within the canvas bounds
-    if (this.x >= 0 && this.x + this.width <= canvas.width &&
-      this.y >= 0 && this.y + this.height <= canvas.height) {
+    if (this.onScreen(canvas)) {
       this.fire();
     }
 
@@ -52,10 +51,15 @@ export class Enemy {
     });
   }
 
+  onScreen(canvas) {
+    return this.x >= 0 && this.x + this.width <= canvas.width &&
+    this.y >= 0 && this.y + this.height <= canvas.height;
+  }
+
   fire() {
     if (this.canFire) {
       // Logic to fire a bullet
-      this.shoot();
+      this.bullets.push(new EnemyBullet(this.x, this.y + this.height / 2));
       this.canFire = false; // Prevent continuous firing
       setTimeout(() => this.canFire = true, 1000); // Allow firing again after 1 second
     }
@@ -67,10 +71,6 @@ export class Enemy {
     this.bullets.forEach(bullet => bullet.draw(ctx));
   }
 
-  shoot() {
-    this.bullets.push(new EnemyBullet(this.x, this.y + this.height / 2));
-  }
-
   takeHit(level, player, x, y) {
     this.hull.hits--;
     if (this.hull.hits <= 0) {
@@ -80,7 +80,10 @@ export class Enemy {
   }
 }
 
-export class Flyer extends Enemy {
+
+export var enemies = {};
+
+enemies.Flyer = class extends Enemy {
   constructor(x, y) {
     super(x, y);
   }
@@ -94,7 +97,7 @@ export class Flyer extends Enemy {
   }
 }
 
-export class Bomber extends Enemy {
+enemies.Bomber = class extends Enemy {
   constructor(x, y) {
     super(x, y);
     this.width = 32;
@@ -108,6 +111,46 @@ export class Bomber extends Enemy {
   }
 
   update(canvas, player) {
+    super.update(canvas, player);
+  }
+
+  draw(ctx) {
+    super.draw(ctx);
+  }
+}
+
+enemies.Zoomer = class extends Enemy {
+  constructor(x, y) {
+    super(x, y);
+    this.width = 48;
+    this.height = 16;
+    this.hull = {
+      "hits": 5
+    };
+    this.engine = {
+      "speed": 0.8,
+      "frameCount": 0
+    }
+  }
+
+  update(canvas, player) {
+    if (this.onScreen(canvas)) {
+      this.engine.frameCount++;
+      switch (this.engine.frameCount) {
+        case 40: {
+          this.engine.speed = 3;
+          break;
+        }
+        case 45: {
+          this.engine.speed = 4;
+          break;
+        }
+        case 50: {
+          this.engine.speed = 6;
+          break;
+        }
+      }
+    }
     super.update(canvas, player);
   }
 

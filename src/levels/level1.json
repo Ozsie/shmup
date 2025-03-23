@@ -4,14 +4,19 @@
   "objects": [
     { "type": "Asteroid", "x": 10, "y": 15 },
     { "type": "Enemy",
-      "configuration": "bomber",
+      "configuration": "Bomber",
       "x": 20,
       "y": 12
     },
     { "type": "Enemy",
-      "configuration": "flyer",
+      "configuration": "Flyer",
       "x": 30,
       "y": 8
+    },
+    { "type": "Enemy",
+      "configuration": "Zoomer",
+      "x": 45,
+      "y": 12
     }
   ],
   "backgroundGrid": [

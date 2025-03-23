@@ -1,7 +1,7 @@
 // Level.js
 import {Star} from './Star.js';
 import {Asteroid} from './Asteroid.js';
-import {Bomber, Enemy, Flyer} from './Enemy.js';
+import {enemies, Enemy} from './Enemy.js';
 import {config} from './config.js';
 
 export class Level {
@@ -44,16 +44,7 @@ export class Level {
         let y = obj.y;
         obj.x = obj.x * this.cellSize;
         obj.y = obj.y * this.cellSize;
-        switch (obj.configuration) {
-          case "bomber": {
-            this.setEnemyCell(x, y, new Bomber(obj.x, obj.y));
-            break;
-          }
-          case "flyer":
-          default:
-            this.setEnemyCell(x, y, new Flyer(obj.x, obj.y)); break;
-        }
-
+        this.setEnemyCell(x, y, new enemies[obj.configuration](obj.x, obj.y));
       }
     });
     this.backgroundGrid = json.backgroundGrid;

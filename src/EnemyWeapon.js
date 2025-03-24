@@ -62,3 +62,12 @@ export class BasicMissile extends EnemyWeapon {
     this.bulletType = "TargetingEnemyBullet";
   }
 }
+
+export class Cannon extends EnemyWeapon {
+  constructor(enemy) {
+    super(enemy);
+    this.rateOfFire = 3;
+    this.damage = 20;
+    this.bulletType = "CannonBall";
+  }
+}

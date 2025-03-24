@@ -1,4 +1,4 @@
-import {BasicBullet, BasicMissile, SlowGun} from './EnemyWeapon.js';
+import {BasicBullet, BasicMissile, SlowGun, Cannon} from './EnemyWeapon.js';
 
 export class Enemy {
   constructor(x, y) {
@@ -151,6 +151,29 @@ enemies.Twister = class extends Enemy {
     super.update(canvas, player);
     this.engine.angle += 0.1;
     this.y = this.baseY + this.engine.amplitude * Math.sin(this.engine.angle);
+  }
+
+  draw(ctx, player) {
+    super.draw(ctx, player);
+  }
+}
+
+enemies.Turret = class extends Enemy {
+  constructor(x, y, level) {
+    super(x, y);
+    this.width = 16;
+    this.height = 16;
+    this.hull = {
+      "hits": 2
+    };
+    this.engine = {
+      "speed": level.speed
+    }
+    this.weapon = new Cannon(this);
+  }
+
+  update(canvas, player) {
+    super.update(canvas, player);
   }
 
   draw(ctx, player) {

@@ -44,7 +44,7 @@ export class Level {
         let y = obj.y;
         obj.x = obj.x * this.cellSize;
         obj.y = obj.y * this.cellSize;
-        this.setEnemyCell(x, y, new enemies[obj.configuration](obj.x, obj.y));
+        this.setEnemyCell(x, y, new enemies[obj.configuration](obj.x, obj.y, this));
       }
     });
     this.backgroundGrid = json.backgroundGrid;

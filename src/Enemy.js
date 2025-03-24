@@ -16,7 +16,7 @@ export class Enemy {
     this.weapon = new BasicBullet(this);
   }
 
-  update(canvas, player) {
+  update(canvas, player, level) {
     this.x -= this.engine.speed;
 
     // Check if the enemy is within the canvas bounds
@@ -26,6 +26,10 @@ export class Enemy {
 
     if (this.weapon) {
       this.weapon.update(player);
+    }
+
+    if (this.collidesWith(player)) {
+      player.takeDamage(5);
     }
   }
 
@@ -52,6 +56,16 @@ export class Enemy {
       }
       player.addScore(this.points)
     }
+  }
+
+  collidesWith(player) {
+    const hitBoxX = this.x - this.width / 2;
+    const hitBoxY = this.y - this.height / 2;
+    const playerHB = player.hitbox()
+    return hitBoxX < playerHB.x + player.width &&
+      hitBoxX + this.width > playerHB.x &&
+      hitBoxY < playerHB.y + player.height &&
+      hitBoxY + this.height > playerHB.y;
   }
 }
 

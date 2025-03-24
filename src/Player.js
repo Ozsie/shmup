@@ -9,6 +9,7 @@ export class Player {
     this.score = 0;
     this.sprite = new Image();
     this.sprite.src = 'assets/player.png';
+    this.invulnarable = false;
   }
 
   update(canvas) {
@@ -47,9 +48,13 @@ export class Player {
   }
 
   takeDamage(amount) {
-    this.health -= amount;
-    if (this.health <= 0) {
-      // Handle player death (e.g., end game, restart, etc.)
+    if (!this.invulnarable) {
+      this.health -= amount;
+      this.invulnarable = true;
+      setTimeout(() => this.invulnarable = false, 800);
+      if (this.health <= 0) {
+        // Handle player death (e.g., end game, restart, etc.)
+      }
     }
   }
 

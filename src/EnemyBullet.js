@@ -1,6 +1,8 @@
 import { config } from './config.js';
 
-export class EnemyBullet {
+export var enemyBullets = {}
+
+enemyBullets.EnemyBullet = class {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -35,5 +37,26 @@ export class EnemyBullet {
       hitBoxX + this.width > playerHB.x &&
       hitBoxY < playerHB.y + player.height &&
       hitBoxY + this.height > playerHB.y;
+  }
+}
+
+enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
+  constructor(x, y) {
+    super(x, y);
+    this.speed = -3;
+  }
+
+  update(player) {
+    const dx = player.x - this.x;
+    const dy = player.y - this.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize the direction vector
+    const directionX = dx / distance;
+    const directionY = dy / distance;
+
+    // Update the bullet's position
+    this.x -= directionX * this.speed;
+    this.y -= directionY * this.speed;
   }
 }

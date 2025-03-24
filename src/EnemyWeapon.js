@@ -1,4 +1,4 @@
-import {EnemyBullet} from './EnemyBullet.js';
+import {enemyBullets} from './EnemyBullet.js';
 
 export class EnemyWeapon {
   constructor(enemy) {
@@ -7,12 +7,13 @@ export class EnemyWeapon {
     this.damage = 10;
     this.rateOfFire = 1.2;
     this.enemy = enemy;
+    this.bulletType = "EnemyBullet";
   }
 
   fire() {
     if (this.canFire) {
       // Logic to fire a bullet
-      this.bullets.push(new EnemyBullet(this.enemy.x, this.enemy.y + this.enemy.height / 2));
+      this.bullets.push(new enemyBullets[this.bulletType](this.enemy.x, this.enemy.y + this.enemy.height / 2));
       this.canFire = false; // Prevent continuous firing
       setTimeout(() => this.canFire = true, this.rateOfFire * 1000);
     }
@@ -20,7 +21,7 @@ export class EnemyWeapon {
 
   update(player) {
     this.bullets.forEach((bullet, index) => {
-      bullet.update();
+      bullet.update(player);
 
       if (bullet.collidesWith(player)) {
         player.takeDamage(this.damage);
@@ -50,5 +51,14 @@ export class SlowGun extends EnemyWeapon {
     super(enemy);
     this.rateOfFire = 1.7;
     this.damage = 20;
+  }
+}
+
+export class BasicMissile extends EnemyWeapon {
+  constructor(enemy) {
+    super(enemy);
+    this.rateOfFire = 2;
+    this.damage = 20;
+    this.bulletType = "TargetingEnemyBullet";
   }
 }

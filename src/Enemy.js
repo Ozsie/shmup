@@ -1,4 +1,4 @@
-import {BasicBullet, SlowGun} from './EnemyWeapon.js';
+import {BasicBullet, BasicMissile, SlowGun} from './EnemyWeapon.js';
 
 export class Enemy {
   constructor(x, y) {
@@ -20,7 +20,7 @@ export class Enemy {
     this.x -= this.engine.speed;
 
     // Check if the enemy is within the canvas bounds
-    if (this.onScreen(canvas) && this.weapon) {
+    if (this.onScreen(canvas) && this.weapon && this.hull.hits > 0) {
       this.weapon.fire();
     }
 
@@ -35,8 +35,10 @@ export class Enemy {
   }
 
   draw(ctx) {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    if (this.hull.hits > 0) {
+      ctx.fillStyle = 'green';
+      ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
     if (this.weapon) {
       this.weapon.draw(ctx);
     }
@@ -44,7 +46,7 @@ export class Enemy {
 
   takeHit(level, player, x, y) {
     this.hull.hits--;
-    if (this.hull.hits <= 0) {
+    if (this.hull.hits <= 0 && this.weapon.bullets.length === 0) {
       level.removeEnemy(x, y);
       player.addScore(this.points)
     }
@@ -78,6 +80,7 @@ enemies.Bomber = class extends Enemy {
     this.engine = {
       "speed": 0.8
     }
+    this.weapon = new BasicMissile(this);
   }
 
   update(canvas, player) {

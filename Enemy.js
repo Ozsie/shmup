@@ -1,54 +1,36 @@
-import { EnemyBullet } from './EnemyBullet.js'
+import {BasicBullet, BasicMissile, SlowGun, Cannon} from './EnemyWeapon.js';
 
 export class Enemy {
   constructor(x, y) {
-    if (typeof x === 'object') {
-      this.x = x.x;
-      this.y = x.y;
-      this.width = x.width;
-      this.height = x.height;
-      this.points = x.points;
-      this.hits = x.hits;
-      this.hull = x.hull;
-      this.engine = x.engine;
-    } else {
-      this.x = x;
-      this.y = y;
-      this.width = 32;
-      this.height = 32;
-      this.points = 50;
-      this.hull = {
-        hits: 1,
-      }
-      this.engine = {
-        speed: 2,
-      }
+    this.x = x;
+    this.y = y;
+    this.width = 32;
+    this.height = 32;
+    this.points = 50;
+    this.hull = {
+      hits: 1,
     }
-    this.canFire = true;
-    this.bullets = [];
+    this.engine = {
+      speed: 2,
+    }
+    this.weapon = new BasicBullet(this);
   }
 
-  update(canvas, player) {
+  update(canvas, player, level) {
     this.x -= this.engine.speed;
 
     // Check if the enemy is within the canvas bounds
-    if (this.onScreen(canvas)) {
-      this.fire();
+    if (this.onScreen(canvas) && this.weapon && this.hull.hits > 0) {
+      this.weapon.fire();
     }
 
-    this.bullets.forEach((bullet, index) => {
-      bullet.update();
+    if (this.weapon) {
+      this.weapon.update(player);
+    }
 
-      if (bullet.collidesWith(player)) {
-        player.takeDamage(10);
-        this.bullets.splice(index, 1);
-        return;
-      }
-
-      if (bullet.x + bullet.width < 0) {
-        this.bullets.splice(index, 1);
-      }
-    });
+    if (this.collidesWith(player)) {
+      player.takeDamage(5);
+    }
   }
 
   onScreen(canvas) {
@@ -56,30 +38,36 @@ export class Enemy {
     this.y >= 0 && this.y + this.height <= canvas.height;
   }
 
-  fire() {
-    if (this.canFire) {
-      // Logic to fire a bullet
-      this.bullets.push(new EnemyBullet(this.x, this.y + this.height / 2));
-      this.canFire = false; // Prevent continuous firing
-      setTimeout(() => this.canFire = true, 1000); // Allow firing again after 1 second
+  draw(ctx, player) {
+    if (this.hull.hits > 0) {
+      ctx.fillStyle = 'green';
+      ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-  }
-
-  draw(ctx) {
-    ctx.fillStyle = 'green';
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-    this.bullets.forEach(bullet => bullet.draw(ctx));
+    if (this.weapon) {
+      this.weapon.draw(ctx, player);
+    }
   }
 
   takeHit(level, player, x, y) {
     this.hull.hits--;
     if (this.hull.hits <= 0) {
-      level.removeEnemy(x, y);
+      if (!this.weapon || this.weapon.bullets.length === 0) {
+        level.removeEnemy(x, y);
+      }
       player.addScore(this.points)
     }
   }
-}
 
+  collidesWith(player) {
+    const hitBoxX = this.x - this.width / 2;
+    const hitBoxY = this.y - this.height / 2;
+    const playerHB = player.hitbox()
+    return hitBoxX < playerHB.x + player.width &&
+      hitBoxX + this.width > playerHB.x &&
+      hitBoxY < playerHB.y + player.height &&
+      hitBoxY + this.height > playerHB.y;
+  }
+}
 
 export var enemies = {};
 
@@ -92,8 +80,8 @@ enemies.Flyer = class extends Enemy {
     super.update(canvas, player);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }
 
@@ -108,14 +96,15 @@ enemies.Bomber = class extends Enemy {
     this.engine = {
       "speed": 0.8
     }
+    this.weapon = new BasicMissile(this);
   }
 
   update(canvas, player) {
     super.update(canvas, player);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }
 
@@ -131,6 +120,7 @@ enemies.Zoomer = class extends Enemy {
       "speed": 0.8,
       "frameCount": 0
     };
+    this.weapon = undefined;
   }
 
   update(canvas, player) {
@@ -168,6 +158,7 @@ enemies.Twister = class extends Enemy {
       "angle": 0,
       "amplitude": 50
     };
+    this.weapon = new SlowGun(this);
   }
 
   update(canvas, player) {
@@ -176,7 +167,30 @@ enemies.Twister = class extends Enemy {
     this.y = this.baseY + this.engine.amplitude * Math.sin(this.engine.angle);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
+  }
+}
+
+enemies.Turret = class extends Enemy {
+  constructor(x, y, level) {
+    super(x, y);
+    this.width = 16;
+    this.height = 16;
+    this.hull = {
+      "hits": 2
+    };
+    this.engine = {
+      "speed": level.speed
+    }
+    this.weapon = new Cannon(this);
+  }
+
+  update(canvas, player) {
+    super.update(canvas, player);
+  }
+
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }

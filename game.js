@@ -68,6 +68,7 @@ function draw() {
   let fraction = (playerX / level.width()) * 100;
   const percent = Math.floor(fraction);
   ctx.fillText('X: ' + playerX + "(" + percent + "%)", 150, 30);
+  ctx.fillText('INV: ' + player.invulnarable, 250, 30);
 
   // Draw score counter
   ctx.fillText('Score: ' + player.score, canvas.width - 100, 30);

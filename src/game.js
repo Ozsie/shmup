@@ -31,7 +31,7 @@ window.addEventListener('keydown', (e) => {
 
 const bullets = [];
 
-function update(deltaTime) {
+function update() {
   player.update(canvas);
   bullets.forEach((bullet, bulletIndex) => {
     bullet.update();
@@ -64,6 +64,10 @@ function draw() {
   ctx.fillStyle = 'white';
   ctx.font = '20px Arial';
   ctx.fillText('Health: ' + player.health, 10, 30);
+  const playerX = Math.floor(player.x / level.cellSize) + Math.floor(level.offsetX / level.cellSize)
+  let fraction = (playerX / level.width()) * 100;
+  const percent = Math.floor(fraction);
+  ctx.fillText('X: ' + playerX + "(" + percent + "%)", 150, 30);
 
   // Draw score counter
   ctx.fillText('Score: ' + player.score, canvas.width - 100, 30);

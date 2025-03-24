@@ -55,6 +55,14 @@ export class Level {
     this.initialized = true;
   }
 
+  width() {
+    if (this.initialized) {
+      return this.staticGrid[0].length;
+    } else {
+      return 100;
+    }
+  }
+
   // Set an object at a specific cell
   setStaticCell(x, y, object) {
     if (y >= 0 && y < this.gridHeight) {
@@ -114,11 +122,11 @@ export class Level {
   update(canvas, player) {
     if (!this.ready()) return;
 
-    this.starsLayer1.forEach(star => star.update(canvas));
-    this.starsLayer2.forEach(star => star.update(canvas));
-
     if (this.offsetX < this.levelWidth - canvas.width) {
       this.offsetX += this.speed;
+
+      this.starsLayer1.forEach(star => star.update(canvas));
+      this.starsLayer2.forEach(star => star.update(canvas));
     }
     for (let y = 0; y < this.gridHeight; y++) {
       let row = this.staticGrid[y];

@@ -7,11 +7,11 @@ set -e
 TEMP_DIR=$(mktemp -d)
 
 # Checkout the main branch and copy the src directory to the temporary location
-git checkout main
 cp -r src/* "$TEMP_DIR"
 
 # Checkout the gh-pages branch
 git checkout gh-pages
+git pull
 
 # Copy the contents of the src directory from the temporary location to the root directory
 cp -r "$TEMP_DIR"/* .

@@ -1,28 +1,26 @@
 {
-  "width": 50,
-  "speed": 0.5,
+  "width": 250,
+  "speed": 1,
   "objects": [
     { "type": "Asteroid", "x": 10, "y": 15 },
-    { "type": "Enemy",
-      "configuration": "Bomber",
-      "x": 20,
-      "y": 12
-    },
-    { "type": "Enemy",
-      "configuration": "Flyer",
-      "x": 30,
-      "y": 8
-    },
-    { "type": "Enemy",
-      "configuration": "Zoomer",
-      "x": 45,
-      "y": 12
-    },
-    { "type": "Enemy",
-      "configuration": "Twister",
-      "x": 20,
-      "y": 4
-    }
+    { "type": "Enemy", "configuration": "Bomber", "x": 20, "y": 12 },
+    { "type": "Enemy", "configuration": "Flyer", "x": 30, "y": 8 },
+    { "type": "Enemy", "configuration": "Zoomer", "x": 45, "y": 12 },
+    { "type": "Enemy", "configuration": "Twister", "x": 20, "y": 4 },
+    { "type": "Asteroid", "x": 50, "y": 20 },
+    { "type": "Asteroid", "x": 60, "y": 25 },
+    { "type": "Enemy", "configuration": "Bomber", "x": 70, "y": 10 },
+    { "type": "Enemy", "configuration": "Flyer", "x": 80, "y": 15 },
+    { "type": "Enemy", "configuration": "Zoomer", "x": 90, "y": 20 },
+    { "type": "Enemy", "configuration": "Twister", "x": 100, "y": 5 },
+    { "type": "Asteroid", "x": 110, "y": 30 },
+    { "type": "Asteroid", "x": 120, "y": 35 },
+    { "type": "Enemy", "configuration": "Bomber", "x": 130, "y": 10 },
+    { "type": "Enemy", "configuration": "Flyer", "x": 140, "y": 15 },
+    { "type": "Enemy", "configuration": "Zoomer", "x": 150, "y": 20 },
+    { "type": "Enemy", "configuration": "Twister", "x": 160, "y": 5 },
+    { "type": "Asteroid", "x": 170, "y": 40 },
+    { "type": "Asteroid", "x": 180, "y": 45 }
   ],
   "backgroundGrid": [
     { "x": 0, "y": 0, "tile": 1 },

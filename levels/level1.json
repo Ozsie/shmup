@@ -4,26 +4,24 @@
   "objects": [
     { "type": "Asteroid", "x": 10, "y": 15 },
     { "type": "Enemy",
-      "configuration": {
-        "x": 20,
-        "y": 12,
-        "width":32,
-        "height": 16,
-        "speed": 0.8,
-        "points": 75,
-        "hits": 5
-      }
+      "configuration": "Bomber",
+      "x": 20,
+      "y": 12
     },
     { "type": "Enemy",
-      "configuration": {
-        "x": 30,
-        "y": 8,
-        "width":32,
-        "height": 32,
-        "speed": 2,
-        "points": 50,
-        "hits": 1
-      }
+      "configuration": "Flyer",
+      "x": 30,
+      "y": 8
+    },
+    { "type": "Enemy",
+      "configuration": "Zoomer",
+      "x": 45,
+      "y": 12
+    },
+    { "type": "Enemy",
+      "configuration": "Twister",
+      "x": 20,
+      "y": 4
     }
   ],
   "backgroundGrid": [

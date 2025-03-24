@@ -17,6 +17,11 @@
       "configuration": "Zoomer",
       "x": 45,
       "y": 12
+    },
+    { "type": "Enemy",
+      "configuration": "Twister",
+      "x": 20,
+      "y": 4
     }
   ],
   "backgroundGrid": [

@@ -125,12 +125,12 @@ enemies.Zoomer = class extends Enemy {
     this.width = 48;
     this.height = 16;
     this.hull = {
-      "hits": 5
+      "hits": 1
     };
     this.engine = {
       "speed": 0.8,
       "frameCount": 0
-    }
+    };
   }
 
   update(canvas, player) {
@@ -152,6 +152,28 @@ enemies.Zoomer = class extends Enemy {
       }
     }
     super.update(canvas, player);
+  }
+
+  draw(ctx) {
+    super.draw(ctx);
+  }
+}
+
+enemies.Twister = class extends Enemy {
+  constructor(x, y) {
+    super(x, y);
+    this.baseY = this.y;
+    this.engine = {
+      "speed": 2,
+      "angle": 0,
+      "amplitude": 50
+    };
+  }
+
+  update(canvas, player) {
+    super.update(canvas, player);
+    this.engine.angle += 0.1;
+    this.y = this.baseY + this.engine.amplitude * Math.sin(this.engine.angle);
   }
 
   draw(ctx) {

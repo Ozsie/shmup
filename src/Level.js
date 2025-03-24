@@ -153,7 +153,7 @@ export class Level {
   }
 
   // Draw the level
-  draw(ctx) {
+  draw(ctx, player) {
     if (!this.ready()) return;
     this.starsLayer1.forEach(star => star.draw(ctx));
     this.starsLayer2.forEach(star => star.draw(ctx));
@@ -174,7 +174,7 @@ export class Level {
 
         const enemy = this.enemyGrid[y][x];
         if (enemy) {
-          enemy.draw(ctx);
+          enemy.draw(ctx, player);
         }
         if (config.grid) {
           this.drawDebugGrid(ctx, x, y);}

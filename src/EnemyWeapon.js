@@ -35,8 +35,8 @@ export class EnemyWeapon {
     });
   }
 
-  draw(ctx) {
-    this.bullets.forEach(bullet => bullet.draw(ctx));
+  draw(ctx, player) {
+    this.bullets.forEach(bullet => bullet.draw(ctx, player));
   }
 }
 

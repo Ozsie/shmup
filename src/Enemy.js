@@ -34,20 +34,22 @@ export class Enemy {
     this.y >= 0 && this.y + this.height <= canvas.height;
   }
 
-  draw(ctx) {
+  draw(ctx, player) {
     if (this.hull.hits > 0) {
       ctx.fillStyle = 'green';
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     if (this.weapon) {
-      this.weapon.draw(ctx);
+      this.weapon.draw(ctx, player);
     }
   }
 
   takeHit(level, player, x, y) {
     this.hull.hits--;
-    if (this.hull.hits <= 0 && this.weapon.bullets.length === 0) {
-      level.removeEnemy(x, y);
+    if (this.hull.hits <= 0) {
+      if (!this.weapon || this.weapon.bullets.length === 0) {
+        level.removeEnemy(x, y);
+      }
       player.addScore(this.points)
     }
   }
@@ -64,8 +66,8 @@ enemies.Flyer = class extends Enemy {
     super.update(canvas, player);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }
 
@@ -87,8 +89,8 @@ enemies.Bomber = class extends Enemy {
     super.update(canvas, player);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }
 
@@ -151,7 +153,7 @@ enemies.Twister = class extends Enemy {
     this.y = this.baseY + this.engine.amplitude * Math.sin(this.engine.angle);
   }
 
-  draw(ctx) {
-    super.draw(ctx);
+  draw(ctx, player) {
+    super.draw(ctx, player);
   }
 }

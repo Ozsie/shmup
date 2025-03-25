@@ -47,7 +47,7 @@ export class Level {
         let y = obj.y;
         obj.x = obj.x * this.cellSize;
         obj.y = obj.y * this.cellSize;
-        this.setEnemyCell(x, y, new enemies[obj.configuration](obj.x, obj.y, this));
+        this.setEnemyCell(x, y, new enemies[obj.configuration](obj.x, obj.y, obj.id, this));
       }
     });
     this.backgroundGrid = json.backgroundGrid;
@@ -203,7 +203,16 @@ export class Level {
   }
 
   resumeOnDestroy(target) {
-    return !(this.enemyGrid[target.y] && this.enemyGrid[target.y][target.x]);
+    let targetEnemy = undefined;
+    for (let y = 0; y < this.gridHeight; y++) {
+      let row = this.enemyGrid[y];
+      for (let x = 0; x < row.length; x++) {
+        if (row[x] && row[x].id === target.id) {
+          targetEnemy = row[x];
+        }
+      }
+    }
+    return targetEnemy === undefined;
   }
 
   // Draw the level

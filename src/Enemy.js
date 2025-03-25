@@ -1,9 +1,10 @@
 import {BasicBullet, BasicMissile, SlowGun, Cannon} from './EnemyWeapon.js';
 
 export class Enemy {
-  constructor(x, y) {
+  constructor(x, y, id) {
     this.x = x;
     this.y = y;
+    this.id = id;
     this.width = 32;
     this.height = 32;
     this.points = 50;
@@ -69,8 +70,8 @@ export class Enemy {
 export var enemies = {};
 
 enemies.Flyer = class extends Enemy {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, id) {
+    super(x, y, id);
   }
 
   update(canvas, player, level) {
@@ -83,8 +84,8 @@ enemies.Flyer = class extends Enemy {
 }
 
 enemies.Bomber = class extends Enemy {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, id) {
+    super(x, y, id);
     this.width = 32;
     this.height = 16;
     this.hull = {
@@ -106,8 +107,8 @@ enemies.Bomber = class extends Enemy {
 }
 
 enemies.Zoomer = class extends Enemy {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, id) {
+    super(x, y, id);
     this.width = 48;
     this.height = 16;
     this.hull = {
@@ -147,8 +148,8 @@ enemies.Zoomer = class extends Enemy {
 }
 
 enemies.Twister = class extends Enemy {
-  constructor(x, y) {
-    super(x, y);
+  constructor(x, y, id) {
+    super(x, y, id);
     this.baseY = this.y;
     this.engine = {
       "speed": 2,
@@ -170,8 +171,8 @@ enemies.Twister = class extends Enemy {
 }
 
 enemies.Turret = class extends Enemy {
-  constructor(x, y, level) {
-    super(x, y);
+  constructor(x, y, id, level) {
+    super(x, y, id);
     this.width = 16;
     this.height = 16;
     this.hull = {

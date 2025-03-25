@@ -4,7 +4,6 @@
   "objects": [
     { "type": "Asteroid", "x": 10, "y": 15 },
     { "type": "Enemy", "configuration": "Bomber", "x": 20, "y": 12 },
-    { "type": "Enemy", "configuration": "Turret", "x": 20, "y": 0 },
     { "type": "Enemy", "configuration": "Flyer", "x": 30, "y": 8 },
     { "type": "Enemy", "configuration": "Zoomer", "x": 45, "y": 4 },
     { "type": "Enemy", "configuration": "Zoomer", "x": 46, "y": 6 },
@@ -33,7 +32,8 @@
     { "type": "Enemy", "configuration": "Zoomer", "x": 150, "y": 20 },
     { "type": "Enemy", "configuration": "Twister", "x": 160, "y": 5 },
     { "type": "Asteroid", "x": 170, "y": 40 },
-    { "type": "Asteroid", "x": 180, "y": 45 }
+    { "type": "Asteroid", "x": 180, "y": 45 },
+    { "type": "Enemy", "configuration": "Turret", "x": 40, "y": 10 }
   ],
   "backgroundGrid": [
     { "x": 0, "y": 0, "tile": 1 },
@@ -44,5 +44,13 @@
     { "x": 1, "y": 1, "tile": 4 }
   ],
   "background": "levels/level1-bg.png",
-  "foreground": "levels/level1-fg.png"
+  "foreground": "levels/level1-fg.png",
+  "pauses": [
+    {"x": 20, "resumeOn": "resumeOnDestroy",
+      "target": {
+        "x": 40,
+        "y": 10
+      }
+    }
+  ]
 }

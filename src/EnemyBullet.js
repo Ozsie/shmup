@@ -38,6 +38,15 @@ enemyBullets.EnemyBullet = class {
       hitBoxY < playerHB.y + player.height &&
       hitBoxY + this.height > playerHB.y;
   }
+
+  copy() {
+    let bullet = new enemyBullets.EnemyBullet(this.x, this.y);
+    bullet.width = this.width;
+    bullet.height = this.height;
+    bullet.speed = this.speed;
+    bullet.sprite.src = this.sprite.src;
+    return bullet;
+  }
 }
 
 enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
@@ -88,6 +97,13 @@ enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
     ctx.drawImage(this.sprite, -this.sprite.width / 2, -this.sprite.height / 2, this.sprite.width, this.sprite.height);
     ctx.restore();
   }
+
+  copy() {
+    let bullet = super.copy();
+    bullet.angle = this.angle;
+    bullet.following = this.following;
+    return bullet;
+  }
 }
 
 
@@ -134,5 +150,12 @@ enemyBullets.CannonBall = class extends enemyBullets.EnemyBullet {
     ctx.rotate(this.angle);
     ctx.drawImage(this.sprite, -this.sprite.width / 2, -this.sprite.height / 2, this.sprite.width, this.sprite.height);
     ctx.restore();
+  }
+
+  copy() {
+    let bullet = super.copy();
+    bullet.angle = this.angle;
+    bullet.following = this.following;
+    return bullet;
   }
 }

@@ -46,4 +46,9 @@ export class Asteroid {
       player.y += dy * force;
     }
   }
+
+  onScreen(canvas) {
+    return this.x + this.width > 0 && this.x < canvas.width &&
+      this.y + this.height > 0 && this.y < canvas.height;
+  }
 }

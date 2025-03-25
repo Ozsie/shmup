@@ -23,6 +23,9 @@ export class Level {
     this.levelWidth = 0;
     this.background = new Image();
     this.foreground = new Image();
+    this.pauses = [];
+
+    this.bullets = [];
   }
 
   loadFromJSON(json, canvas) {
@@ -51,6 +54,7 @@ export class Level {
     this.foregroundGrid = json.foregroundGrid;
     this.background.src = json.background;
     this.foreground.src = json.foreground;
+    this.pauses = json.pauses;
 
     this.initialized = true;
   }
@@ -122,34 +126,84 @@ export class Level {
   update(canvas, player) {
     if (!this.ready()) return;
 
-    if (this.offsetX < this.levelWidth - canvas.width) {
-      this.offsetX += this.speed;
+    if (!this.currentTarget) {
+      this.pauses.forEach((pause, index) => {
+        let currentX = this.offsetX / this.cellSize;
+        if (currentX === pause.x) {
+          this.currentTarget = pause.target;
+          this.resumeOn = pause.resumeOn;
+          this.currentPauseIndex = index;
+        }
+      });
+      if (this.offsetX < this.levelWidth - canvas.width) {
+        this.offsetX += this.speed;
 
-      this.starsLayer1.forEach(star => star.update(canvas));
-      this.starsLayer2.forEach(star => star.update(canvas));
-    }
-    for (let y = 0; y < this.gridHeight; y++) {
-      let row = this.staticGrid[y];
-      for (let x = 0; x < row.length; x++) {
-        const staticObject = row[x];
-        if (staticObject) {
-          staticObject.update();
-        }
-        const enemyObject = this.enemyGrid[y][x];
-        if (enemyObject) {
-          enemyObject.update(canvas, player);
-        }
-        const asteroidObject = this.asteroidGrid[y][x];
-        if (asteroidObject) {
-          asteroidObject.update();
-          asteroidObject.applyGravity(player);
-          if (asteroidObject.checkCollision(player)) {
-            player.takeDamage(30);
-            this.removeAsteroid(x,y);
+        this.starsLayer1.forEach(star => star.update(canvas));
+        this.starsLayer2.forEach(star => star.update(canvas));
+      }
+      for (let y = 0; y < this.gridHeight; y++) {
+        let row = this.staticGrid[y];
+        for (let x = 0; x < row.length; x++) {
+          const staticObject = row[x];
+          if (staticObject) {
+            staticObject.update();
           }
+          this.updateEnemies(y, x, canvas, player);
+          this.updateAsteroids(y, x, canvas, player);
+        }
+      }
+    } else {
+      console.log("Hit pause " + JSON.stringify(this.currentTarget));
+      for (let y = 0; y < this.gridHeight; y++) {
+        let row = this.staticGrid[y];
+        for (let x = 0; x < row.length; x++) {
+          this.updateEnemies(y, x, canvas, player);
+          this.updateAsteroids(y, x, canvas, player);
+        }
+      }
+      if (this[this.resumeOn](this.currentTarget)) {
+        console.log("resuming after pause");
+        this.pauses.splice(this.currentPauseIndex, 1);
+        this.currentTarget = undefined;
+        this.resumeOn = undefined;
+        this.currentPauseIndex = undefined;
+      }
+    }
+
+    this.bullets.forEach((bullet, index) => {
+      bullet.update(player);
+
+      if (bullet.x + bullet.width < 0) {
+        this.bullets.splice(index, 1);
+      }
+    });
+  }
+
+  updateAsteroids(y, x, canvas, player) {
+    const asteroidObject = this.asteroidGrid[y][x];
+    if (asteroidObject) {
+      if (!this.currentTarget || (this.currentTarget && asteroidObject.onScreen(canvas))) {
+        asteroidObject.update();
+        asteroidObject.applyGravity(player);
+        if (asteroidObject.checkCollision(player)) {
+          player.takeDamage(30);
+          this.removeAsteroid(x, y);
         }
       }
     }
+  }
+
+  updateEnemies(y, x, canvas, player) {
+    const enemyObject = this.enemyGrid[y][x];
+    if (enemyObject) {
+      if (!this.currentTarget || (this.currentTarget && enemyObject.onScreen(canvas))) {
+        enemyObject.update(canvas, player, this);
+      }
+    }
+  }
+
+  resumeOnDestroy(target) {
+    return !(this.enemyGrid[target.y] && this.enemyGrid[target.y][target.x]);
   }
 
   // Draw the level
@@ -180,6 +234,7 @@ export class Level {
           this.drawDebugGrid(ctx, x, y);}
       }
     }
+    this.bullets.forEach(bullet => bullet.draw(ctx, player));
 
     this.drawGrid(ctx, this.foregroundGrid, this.foreground);
   }

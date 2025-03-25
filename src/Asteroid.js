@@ -7,9 +7,19 @@ export class Asteroid {
     this.height = 32;
     this.speed = 1;
     this.rotation = 0;
-    this.rotationSpeed = 0.01;
+    this.rotationSpeed = this.getRandomArbitrary(-0.04, 0.04);
     this.gravityRadius = 300;
     this.gravityStrength = 0.6;
+  }
+
+  getRandomArbitrary(min, max) {
+    let random = Math.random() * (max - min) + min;
+    let limit = Math.abs(0 - Math.abs(random));
+    if (limit < 0.005) {
+      return this.getRandomArbitrary(min, max);
+    } else {
+      return random;
+    }
   }
 
   update() {

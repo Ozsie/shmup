@@ -133,6 +133,10 @@ export class Level {
           this.currentTarget = pause.target;
           this.resumeOn = pause.resumeOn;
           this.currentPauseIndex = index;
+          if (pause.resumeOn === "resumeOnDestroy") {
+            let targetEnemy = this.findEnemyById(pause.target.id);
+            targetEnemy.engine.speed = 0;
+          }
         }
       });
       if (this.offsetX < this.levelWidth - canvas.width) {
@@ -202,16 +206,20 @@ export class Level {
     }
   }
 
-  resumeOnDestroy(target) {
-    let targetEnemy = undefined;
+  findEnemyById(id) {
     for (let y = 0; y < this.gridHeight; y++) {
       let row = this.enemyGrid[y];
       for (let x = 0; x < row.length; x++) {
-        if (row[x] && row[x].id === target.id) {
-          targetEnemy = row[x];
+        if (row[x] && row[x].id === id) {
+          return row[x];
         }
       }
     }
+    return undefined;
+  }
+
+  resumeOnDestroy(target) {
+    let targetEnemy = this.findEnemyById(target.id);
     return targetEnemy === undefined;
   }
 

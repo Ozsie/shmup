@@ -147,7 +147,7 @@ enemies.Zoomer = class extends Enemy {
   }
 }
 
-enemies.Twister = class extends Enemy {
+enemies.SineTwister = class extends Enemy {
   constructor(x, y, id) {
     super(x, y, id);
     this.baseY = this.y;
@@ -163,6 +163,29 @@ enemies.Twister = class extends Enemy {
     super.update(canvas, player, level);
     this.engine.angle += 0.1;
     this.y = this.baseY + this.engine.amplitude * Math.sin(this.engine.angle);
+  }
+
+  draw(ctx, player) {
+    super.draw(ctx, player);
+  }
+}
+
+enemies.CosineTwister = class extends Enemy {
+  constructor(x, y, id) {
+    super(x, y, id);
+    this.baseY = this.y;
+    this.engine = {
+      "speed": 2,
+      "angle": 0,
+      "amplitude": 50
+    };
+    this.weapon = new SlowGun(this);
+  }
+
+  update(canvas, player, level) {
+    super.update(canvas, player, level);
+    this.engine.angle += 0.1;
+    this.y = this.baseY + this.engine.amplitude * Math.cos(this.engine.angle);
   }
 
   draw(ctx, player) {

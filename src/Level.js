@@ -108,6 +108,10 @@ export class Level {
     return this.enemyGrid.flatMap((enemies) => enemies)
   }
 
+  asteroids() {
+    return this.asteroidGrid.flatMap((it) => it)
+  }
+
   // Set an object at a specific cell
   setAsteroidCell(x, y, object) {
     if (y >= 0 && y < this.gridHeight) {
@@ -125,6 +129,9 @@ export class Level {
   // Update the level position
   update(canvas, player) {
     if (!this.ready()) return;
+    let enemyCount = this.enemies().filter((it) => it).length;
+    let asteroidCount = this.asteroids().filter((it) => it).length;
+    console.log(enemyCount + " | " + asteroidCount + " | " + this.bullets.length);
 
     if (!this.currentTarget) {
       this.pauses.forEach((pause, index) => {
@@ -135,7 +142,11 @@ export class Level {
           this.currentPauseIndex = index;
           if (pause.resumeOn === "resumeOnDestroy") {
             let targetEnemy = this.findEnemyById(pause.target.id);
-            targetEnemy.engine.speed = 0;
+            if (targetEnemy) {
+              targetEnemy.engine.speed = 0;
+            } else {
+              this.resume();
+            }
           }
         }
       });
@@ -166,14 +177,22 @@ export class Level {
         }
       }
       if (this[this.resumeOn](this.currentTarget)) {
-        console.log("resuming after pause");
-        this.pauses.splice(this.currentPauseIndex, 1);
-        this.currentTarget = undefined;
-        this.resumeOn = undefined;
-        this.currentPauseIndex = undefined;
+        this.resume();
       }
     }
 
+    this.updateEnemyBullets(player);
+  }
+
+  resume() {
+    console.log('resuming after pause');
+    this.pauses.splice(this.currentPauseIndex, 1);
+    this.currentTarget = undefined;
+    this.resumeOn = undefined;
+    this.currentPauseIndex = undefined;
+  }
+
+  updateEnemyBullets(player) {
     this.bullets.forEach((bullet, index) => {
       bullet.update(player);
 
@@ -186,6 +205,9 @@ export class Level {
   updateAsteroids(y, x, canvas, player) {
     const asteroidObject = this.asteroidGrid[y][x];
     if (asteroidObject) {
+      if (asteroidObject.x + asteroidObject.width < 0) {
+        this.asteroidGrid[y][x] = undefined;
+      }
       if (!this.currentTarget || (this.currentTarget && asteroidObject.onScreen(canvas))) {
         asteroidObject.update();
         asteroidObject.applyGravity(player);
@@ -200,6 +222,9 @@ export class Level {
   updateEnemies(y, x, canvas, player) {
     const enemyObject = this.enemyGrid[y][x];
     if (enemyObject) {
+      if (enemyObject.x + enemyObject.width < 0) {
+        this.enemyGrid[y][x] = undefined;
+      }
       if (!this.currentTarget || (this.currentTarget && enemyObject.onScreen(canvas))) {
         enemyObject.update(canvas, player, this);
       }

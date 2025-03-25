@@ -1,3 +1,6 @@
+import {config} from './config.js';
+import {game} from './game.js';
+
 export class Player {
   constructor(x, y) {
     this.x = x;
@@ -52,8 +55,10 @@ export class Player {
       this.health -= amount;
       this.invulnarable = true;
       setTimeout(() => this.invulnarable = false, 800);
-      if (this.health <= 0) {
-        // Handle player death (e.g., end game, restart, etc.)
+      if (this.health <= 0 && config.death) {
+        const {player, level} = game.initialize();
+        game.player = player;
+        game.level = level;
       }
     }
   }

@@ -38,8 +38,10 @@ export class Player {
   }
 
   draw(ctx) {
-    ctx.fillStyle = 'white';
-    ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    if (config.hitboxes) {
+      ctx.fillStyle = 'white';
+      ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    }
 
     if (keys['ArrowUp']) {
       ctx.drawImage(this.sprite, 64, 0, 64, 64, this.x - (this.width / 2), this.y - this.height - 8, 64, 64);

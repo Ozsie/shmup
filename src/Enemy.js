@@ -23,7 +23,7 @@ export class Enemy {
   }
 
   update(canvas, player, level) {
-    this.x -= this.engine.speed;
+    this.x -= (this.engine.speed + level.speed);
 
     // Check if the enemy is within the canvas bounds
     if (this.onScreen(canvas) && this.weapon && this.hull.hits > 0) {
@@ -250,13 +250,13 @@ enemies.CosineTwister = class extends Enemy {
 enemies.Turret = class extends Enemy {
   constructor(x, y, id, level) {
     super(x, y, null, id);
-    this.width = 16;
-    this.height = 16;
+    this.width = 32;
+    this.height = 32;
     this.hull = {
       "hits": 2
     };
     this.engine = {
-      "speed": level.speed
+      "speed": 0
     }
     this.weapon = new Cannon(this);
     this.sprite = new Image();

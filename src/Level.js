@@ -142,8 +142,8 @@ export class Level {
           this.currentPauseIndex = index;
           if (pause.resumeOn === "resumeOnDestroy") {
             let targetEnemy = this.findEnemyById(pause.target.id);
-            if (targetEnemy) {
-              targetEnemy.engine.speed = 0;
+            if (targetEnemy) { 
+              targetEnemy.engine.speed = -this.speed;
             } else {
               this.resume();
             }

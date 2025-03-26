@@ -1,4 +1,6 @@
 // Asteroid.js
+import {config} from './config.js';
+
 export class Asteroid {
   constructor(x, y) {
     this.x = x;
@@ -10,6 +12,8 @@ export class Asteroid {
     this.rotationSpeed = this.getRandomArbitrary(-0.04, 0.04);
     this.gravityRadius = 300;
     this.gravityStrength = 0.6;
+    this.sprite = new Image();
+    this.sprite.src = 'assets/asteroid.png';
   }
 
   getRandomArbitrary(min, max) {
@@ -32,7 +36,10 @@ export class Asteroid {
     ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
     ctx.rotate(this.rotation);
     ctx.fillStyle = 'gray';
-    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    if (config.hitboxes) {
+      ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    }
+    ctx.drawImage(this.sprite, -this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
   }
 

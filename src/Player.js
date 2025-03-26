@@ -7,6 +7,8 @@ export class Player {
     this.y = y;
     this.width = 58;
     this.height = 24;
+    this.forwardSpeed = 8;
+    this.backSpeed = 2;
     this.speed = 5;
     this.health = 100;
     this.score = 0;
@@ -21,8 +23,8 @@ export class Player {
 
     if (keys['ArrowUp']) this.y -= this.speed;
     if (keys['ArrowDown']) this.y += this.speed;
-    if (keys['ArrowLeft']) this.x -= this.speed;
-    if (keys['ArrowRight']) this.x += this.speed;
+    if (keys['ArrowLeft']) this.x -= this.backSpeed;
+    if (keys['ArrowRight']) this.x += this.forwardSpeed;
 
     if (hitBoxX < 0) {
       this.x = this.width / 2;

@@ -161,6 +161,46 @@ enemies.Zoomer = class extends Enemy {
   }
 }
 
+enemies.Diver = class extends Enemy {
+  constructor(x, y, id) {
+    super(x, y, 'assets/zoomer.png', id);
+    this.width = 91;
+    this.height = 40;
+    this.hull = {
+      "hits": 1
+    };
+    this.engine = {
+      "speed": 1.2,
+      "frameCount": 0
+    };
+    this.weapon = undefined;
+  }
+
+  update(canvas, player, level) {
+    super.update(canvas, player, level);
+    if (this.onScreen(canvas)) {
+      this.engine.frameCount++;
+      switch (this.engine.frameCount) {
+        case 100: {
+          this.engine.speed = 4;
+          break;
+        }
+        case 130: {
+          this.engine.speed = 6;
+          break;
+        }
+      }
+    }
+    if (this.engine.frameCount >= 100) {
+      this.y += this.engine.speed;
+    }
+  }
+
+  draw(ctx) {
+    super.draw(ctx);
+  }
+}
+
 enemies.SineTwister = class extends Enemy {
   constructor(x, y, id) {
     super(x, y, 'assets/twister.png', id);

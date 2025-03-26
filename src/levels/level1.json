@@ -3,6 +3,7 @@
   "speed": 1,
   "objects": [
     { "type": "Asteroid", "x": 15, "y": 17 },
+    { "type": "Enemy", "configuration": "Turret", "x": 15, "y": 4 },
     { "type": "Enemy", "configuration": "Bomber", "x": 20, "y": 12 },
     { "type": "Enemy", "configuration": "Flyer", "x": 30, "y": 8 },
     { "type": "Enemy", "configuration": "Zoomer", "x": 45, "y": 4 },

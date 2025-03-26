@@ -52,9 +52,12 @@ enemyBullets.EnemyBullet = class {
 enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
   constructor(x, y) {
     super(x, y);
+    this.width = this.height / 2;
     this.speed = -2;
     this.angle = 0;
     this.following = true;
+    this.sprite = new Image();
+    this.sprite.src = 'assets/missile.png';
   }
 
   update(player) {
@@ -93,8 +96,8 @@ enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
     }
     ctx.save();
     ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.drawImage(this.sprite, -this.sprite.width / 2, -this.sprite.height / 2, this.sprite.width, this.sprite.height);
+    ctx.rotate(this.angle + Math.PI / 2);
+    ctx.drawImage(this.sprite, -this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
   }
 
@@ -111,9 +114,12 @@ enemyBullets.TargetingEnemyBullet = class extends enemyBullets.EnemyBullet {
 enemyBullets.CannonBall = class extends enemyBullets.EnemyBullet {
   constructor(x, y) {
     super(x, y);
+    this.width = this.height / 2;
     this.speed = -3;
     this.angle = 0;
     this.following = true;
+    this.sprite = new Image();
+    this.sprite.src = 'assets/missile.png';
   }
 
   update(player) {
@@ -147,8 +153,8 @@ enemyBullets.CannonBall = class extends enemyBullets.EnemyBullet {
     }
     ctx.save();
     ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.drawImage(this.sprite, -this.sprite.width / 2, -this.sprite.height / 2, this.sprite.width, this.sprite.height);
+    ctx.rotate(this.angle + Math.PI / 2);
+    ctx.drawImage(this.sprite, -this.width / 2, -this.height / 2, this.width, this.height);
     ctx.restore();
   }
 

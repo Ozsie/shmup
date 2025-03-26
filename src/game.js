@@ -44,7 +44,7 @@ export var game = {
   },
   draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.level.draw(ctx);
+    this.level.draw(ctx, this.player, canvas);
     this.player.draw(ctx);
     game.bullets.forEach(bullet => bullet.draw(ctx));
 

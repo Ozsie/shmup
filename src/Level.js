@@ -249,12 +249,12 @@ export class Level {
   }
 
   // Draw the level
-  draw(ctx, player) {
+  draw(ctx, player, canvas) {
     if (!this.ready()) return;
     this.starsLayer1.forEach(star => star.draw(ctx));
     this.starsLayer2.forEach(star => star.draw(ctx));
 
-    this.drawGrid(ctx, this.backgroundGrid, this.background);
+    this.drawGrid(ctx, this.backgroundGrid, this.background, canvas);
 
     for (let y = 0; y < this.gridHeight; y++) {
       for (let x = 0; x < this.staticGrid[y].length; x++) {
@@ -264,12 +264,12 @@ export class Level {
         }
 
         const asteroid = this.asteroidGrid[y][x];
-        if (asteroid) {
+        if (asteroid && asteroid.onScreen(canvas)) {
           asteroid.draw(ctx);
         }
 
         const enemy = this.enemyGrid[y][x];
-        if (enemy) {
+        if (enemy && enemy.onScreen(canvas)) {
           enemy.draw(ctx, player);
         }
         if (config.grid) {
@@ -278,7 +278,7 @@ export class Level {
     }
     this.bullets.forEach(bullet => bullet.draw(ctx, player));
 
-    this.drawGrid(ctx, this.foregroundGrid, this.foreground);
+    this.drawGrid(ctx, this.foregroundGrid, this.foreground, canvas);
   }
 
   drawDebugGrid(ctx, x, y) {
@@ -287,19 +287,28 @@ export class Level {
     ctx.strokeRect(x * this.cellSize - this.offsetX, y * this.cellSize, this.cellSize, this.cellSize);
   }
 
-  drawGrid(ctx, grid, image) {
+
+
+  onScreen(tile, canvas) {
+    return tile.x + this.cellSize > 0 && tile.x < canvas.width &&
+      tile.y + this.cellSize > 0 && tile.y < canvas.height;
+  }
+
+  drawGrid(ctx, grid, image, canvas) {
     grid.forEach(tile => {
-      // Assuming you have a method to draw a tile based on its coordinates and tile ID
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = 'grey';
-      if (grid === this.backgroundGrid) {
-        ctx.fillStyle = 'blue';
-      } else {
-        ctx.fillStyle = 'red';
+      if (this.onScreen(tile, canvas)) {
+        // Assuming you have a method to draw a tile based on its coordinates and tile ID
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'grey';
+        if (grid === this.backgroundGrid) {
+          ctx.fillStyle = 'blue';
+        } else {
+          ctx.fillStyle = 'red';
+        }
+        ctx.fillRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
+        ctx.strokeRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
+        this.drawTile(ctx, tile.x, tile.y, tile.tile, image);
       }
-      ctx.fillRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
-      ctx.strokeRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
-      this.drawTile(ctx, tile.x, tile.y, tile.tile, image);
     });
   }
 

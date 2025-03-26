@@ -290,6 +290,15 @@ export class Level {
   drawGrid(ctx, grid, image) {
     grid.forEach(tile => {
       // Assuming you have a method to draw a tile based on its coordinates and tile ID
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'grey';
+      if (grid === this.backgroundGrid) {
+        ctx.fillStyle = 'blue';
+      } else {
+        ctx.fillStyle = 'red';
+      }
+      ctx.fillRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
+      ctx.strokeRect(tile.x * this.cellSize - this.offsetX, tile.y * this.cellSize, this.cellSize, this.cellSize);
       this.drawTile(ctx, tile.x, tile.y, tile.tile, image);
     });
   }

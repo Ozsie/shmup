@@ -1,5 +1,6 @@
 import {config} from './config.js';
 import {game} from './game.js';
+import {upgrades} from './Upgrades.js';
 
 export class Player {
   constructor(x, y) {
@@ -15,6 +16,11 @@ export class Player {
     this.sprite = new Image();
     this.sprite.src = 'assets/player.png';
     this.invulnarable = false;
+
+    this.upgrades = [
+      new upgrades.Shield(),
+      new upgrades.AutoCannon()
+    ];
   }
 
   update(canvas) {
@@ -37,6 +43,8 @@ export class Player {
     } else if (hitBoxY + this.height > canvas.height) {
       this.y = canvas.height - this.height / 2;
     }
+
+    this.upgrades.forEach((upgrade) => upgrade.update(canvas));
   }
 
   draw(ctx) {
@@ -52,10 +60,20 @@ export class Player {
     } else {
       ctx.drawImage(this.sprite, 0, 0, 64, 64, this.x - (this.width / 2), this.y - this.height - 8 , 64, 64);
     }
+
+    this.upgrades.forEach((upgrade) => upgrade.draw(ctx, this));
   }
 
   takeDamage(amount) {
     if (!this.invulnarable) {
+      let shield = this.upgrades.find((upgrade) => upgrade instanceof upgrades.Shield);
+      if (shield) {
+        shield.reducePower();
+        if (shield.power === 0) {
+          this.upgrades.splice(this.upgrades.indexOf(shield), 1);
+        }
+        return;
+      }
       this.health -= amount;
       this.invulnarable = true;
       setTimeout(() => this.invulnarable = false, 800);

@@ -129,9 +129,6 @@ export class Level {
   // Update the level position
   update(canvas, player) {
     if (!this.ready()) return;
-    let enemyCount = this.enemies().filter((it) => it).length;
-    let asteroidCount = this.asteroids().filter((it) => it).length;
-    console.log(enemyCount + " | " + asteroidCount + " | " + this.bullets.length);
 
     if (!this.currentTarget) {
       this.pauses.forEach((pause, index) => {
@@ -142,7 +139,7 @@ export class Level {
           this.currentPauseIndex = index;
           if (pause.resumeOn === "resumeOnDestroy") {
             let targetEnemy = this.findEnemyById(pause.target.id);
-            if (targetEnemy) { 
+            if (targetEnemy) {
               targetEnemy.engine.speed = -this.speed;
             } else {
               this.resume();
@@ -182,6 +179,7 @@ export class Level {
     }
 
     this.updateEnemyBullets(player);
+    this.updateGrid(this.foregroundGrid, player, canvas);
   }
 
   resume() {
@@ -287,11 +285,27 @@ export class Level {
     ctx.strokeRect(x * this.cellSize - this.offsetX, y * this.cellSize, this.cellSize, this.cellSize);
   }
 
-
-
   onScreen(tile, canvas) {
     return tile.x + this.cellSize > 0 && tile.x < canvas.width &&
       tile.y + this.cellSize > 0 && tile.y < canvas.height;
+  }
+
+  updateGrid(grid, player, canvas) {
+    grid.forEach(tile => {
+      if (this.onScreen(tile, canvas) && this.collidesWith(tile, player)) {
+        console.log("hit wall");
+      }
+    });
+  }
+
+  collidesWith(tile, player) {
+    const hitBoxX = tile.x - this.cellSize;
+    const hitBoxY = tile.y - this.cellSize;
+    const playerHB = player.hitbox()
+    return hitBoxX < playerHB.x + player.width &&
+      hitBoxX + this.cellSize> playerHB.x &&
+      hitBoxY < playerHB.y + player.height &&
+      hitBoxY + this.cellSize > playerHB.y;
   }
 
   drawGrid(ctx, grid, image, canvas) {
